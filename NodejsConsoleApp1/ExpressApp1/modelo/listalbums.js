@@ -23,22 +23,21 @@ async function listamalbumes() {
     return array
 }
 async function listcanciones(id) {
-    urlsong='https://api.spotify.com/v1/albums/'+id+'/tracks'
-    const data = await spotifyApi.request(urlsong);
-    var array = [];
-    var x, nombresong;
-    for (x of data.items) {
-        nombrealbum = x.name;
-        aobjectsong = new Cancion(nombresong);
-        array.push(aobjectsong);
+    urlsongss='https://api.spotify.com/v1/albums/'+id+'/tracks'
+    const datasongs = await spotifyApi.request(urlsongss);
+    var arraysongs = [];
+    var x;
+    for (x of datasongs.items) {
+        aobjectsong = new Cancion(x.name);
+        arraysongs.push(aobjectsong);
     }
-    return array
+    return arraysongs
 }
 async function buscarAlbum(id) {
-    urlsong = 'https://api.spotify.com/v1/albums/' + id 
+    urlsong = 'https://api.spotify.com/v1/albums/' + id
     const data = await spotifyApi.request(urlsong);
-    aobjectalbum = new Album(data.id, data.name, data.images[0].url, listcanciones(idalbum));
-    return array
+    aobjectalbum = new Album(id, data.name, data.images[0].url, listcanciones(id));
+    return aobjectalbum
 }
 
 class Album {
@@ -52,8 +51,7 @@ class Album {
 class Cancion {
     constructor(nombre) {
         this.namesong = nombre;
-
     }
 }
-module.exports = listamalbumes()
+module.exports = { listamalbumes, buscarAlbum, listcanciones};
 //module.exports = buscarAlbum(id)
